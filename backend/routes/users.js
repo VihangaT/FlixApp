@@ -2,6 +2,7 @@ const router = require("express").Router();
 const User = require("../models/User");
 const CryptoJS = require("crypto-js");
 const verify = require("../verifyToken");
+
 //update
 router.put("/:id", verify, async (req, res) => {
   if (req.user.id === req.params.id || req.user.isAdmin) {
@@ -28,6 +29,10 @@ router.put("/:id", verify, async (req, res) => {
     res.status(403).json("You can update only your account!");
   }
 });
+
+
+
+
 //delete
 router.delete("/:id", verify, async (req, res) => {
   if (req.user.isAdmin) {
@@ -41,6 +46,8 @@ router.delete("/:id", verify, async (req, res) => {
     res.status(403).json("You can only only your account!");
   }
 });
+
+
 //get
 router.get("/find/:id", async (req, res) => {
   try {
@@ -52,6 +59,8 @@ router.get("/find/:id", async (req, res) => {
     res.status(500).json(err);
   }
 });
+
+
 //getAll
 router.get("/", verify, async (req, res) => {
   const query = req.query.new;
@@ -68,6 +77,8 @@ router.get("/", verify, async (req, res) => {
     res.status(403).json("You are not allowed to use all users!");
   }
 });
+
+
 //get user status
 router.get("/stats", async (req, res) => {
   const today = new Date();
