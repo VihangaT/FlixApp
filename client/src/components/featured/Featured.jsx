@@ -1,11 +1,33 @@
-import { PlayArrow, InfoOutlined } from '@material-ui/icons';
-import React from 'react';
+import { PlayArrow, InfoOutlined } from "@material-ui/icons";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import "./Featured.scss";
 
 export default function Featured({ type }) {
-    return (
-        <div className="featured"> 
-        {type && (
+  const [content, setContent] = useState({});
+  useEffect(() => {
+    const getRandomContent = async () => {
+      try {
+        const res = await axios.get(`/movies/random?type=${type}`, {
+          headers: {
+            token:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxMDk1ODEzNWJiYTAyMjYwNDA2ZjYwOSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTYyODk1MDYxMCwiZXhwIjoxNjI5MzgyNjEwfQ.8Vmwb54RhkaH04vhQ8JPGGS6zuAtpdCdP-mARyu_lvk",
+            // +
+            // JSON.parse(localStorage.getItem("user")).accessToken,
+          },
+        });
+        console.log("featured:" + res.data[0]
+        );
+        setContent(res.data[0]);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getRandomContent();
+  }, [type]);
+  return (
+    <div className="featured">
+      {type && (
         <div className="category">
           <span>{type === "movie" ? "Movies" : "Series"}</span>
           <select name="genre" id="genre">
@@ -24,32 +46,25 @@ export default function Featured({ type }) {
             <option value="drama">Drama</option>
             <option value="documentary">Documentary</option>
           </select>
-            </div>
-        )
-            }
-        <img width="100%" src="https://wallpapercave.com/wp/wp3212730.jpg" alt=""/>
-            <div className="info">
-                <img src="https://occ-0-1432-1433.1.nflxso.net/dnm/api/v6/LmEnxtiAuzezXBjYXPuDgfZ4zZQ/AAAABUZdeG1DrMstq-YKHZ-dA-cx2uQN_YbCYx7RABDk0y7F8ZK6nzgCz4bp5qJVgMizPbVpIvXrd4xMBQAuNe0xmuW2WjoeGMDn1cFO.webp?r=df1" alt="" />
-                <span className="desc">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae
-          adipisci repellendus eum quasi illo, velit numquam, maxime tempora
-          sint deleniti, aliquid qui? Facilis, adipisci! Ratione hic repudiandae
-          temporibus eum earum?
-                </span>
-                <div className="buttons">
-                    <button className="play">
-                        <PlayArrow/>
-                        <span>Play</span>
-                    </button>
-                    <button className="more">
-                        <InfoOutlined/>
-                        <span>Info</span>
-                    </button>
-                </div>
-
-            </div>
         </div>
-    )
+      )}
+      <img width="100%" src={content.img} alt="" />
+      <div className="info">
+        <img src={content.imgTitle} alt="" />
+        <span className="desc">{content.desc}</span>
+        <div className="buttons">
+          <button className="play">
+            <PlayArrow />
+            <span>Play</span>
+          </button>
+          <button className="more">
+            <InfoOutlined />
+            <span>Info</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 // export default Featured
