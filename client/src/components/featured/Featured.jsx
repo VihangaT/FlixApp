@@ -5,6 +5,7 @@ import "./Featured.scss";
 
 export default function Featured({ type }) {
   const [content, setContent] = useState({});
+  
   useEffect(() => {
     const getRandomContent = async () => {
       try {
@@ -16,8 +17,7 @@ export default function Featured({ type }) {
             // JSON.parse(localStorage.getItem("user")).accessToken,
           },
         });
-        console.log("featured:" + res.data[0]
-        );
+        console.log("featured:" + res.data[0]);
         setContent(res.data[0]);
       } catch (error) {
         console.log(error);
