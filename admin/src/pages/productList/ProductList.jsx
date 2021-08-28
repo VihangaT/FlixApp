@@ -5,9 +5,18 @@ import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { MovieContext } from "../../context/movieContext/MovieContext";
 import { deleteMovie, getMovies } from "../../context/movieContext/apiCalls";
+import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
 export default function ProductList() {
   const { movies, dispatch } = useContext(MovieContext);
+  const useStyles = makeStyles((theme) => ({
+    button: {
+      margin: theme.spacing(1),
+    },
+  }));
+  const classes = useStyles();
 
   useEffect(() => {
     getMovies(dispatch);
@@ -43,7 +52,9 @@ export default function ProductList() {
       width: 150,
       renderCell: (params) => {
         return (
+          
           <>
+         
             <Link
               to={{ pathname: "/movie/" + params.row._id, movie: params.row }}
             >
@@ -60,6 +71,8 @@ export default function ProductList() {
   ];
 
   return (
+    <>
+     
     <div className="productList">
       <DataGrid
         rows={movies}
@@ -68,7 +81,20 @@ export default function ProductList() {
         pageSize={8}
         checkboxSelection
         getRowId={(r) => r._id}
+        
+
       />
     </div>
+    <Link to="/newProduct">
+    <Button
+        variant="contained"
+        color="primary"
+        className={classes.button}
+        startIcon={<CloudUploadIcon />}
+      >
+        Add New Movie
+      </Button>
+          </Link>
+    </>
   );
 }
