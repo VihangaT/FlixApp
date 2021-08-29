@@ -1,4 +1,5 @@
 import { useState } from "react";
+import {storage} from "../../firebase";
 import "./newProduct.css";
 
 export default function NewProduct() {
@@ -7,12 +8,27 @@ export default function NewProduct() {
   const [imgTitle, setImgTitle] = useState(null);
   const [imgSm, setImgSm] = useState(null);
   const [trailer, setTrailer] = useState(null);
-  const [vide, setVideo] = useState(null);
+  const [video, setVideo] = useState(null);
+  const [uploaded, setUploaded] = useState(0);
   const handleChange = (e) => {
     const value = e.target.value;
     setMovie({ ...movie, [e.target.name]: value });
   };
-  console.log(movie);
+
+  const upload = (items) => {
+    items.forEach((item) => {
+      const UploadTask = storage;
+    });
+  };
+
+  const handleUpload = (e) => {
+    e.preventDefault();
+    upload([{ file: img, label: "img" }]);
+    upload([{ file: imgTitle, label: "imgTitle" }]);
+    upload([{ file: imgSm, label: "imgSm" }]);
+    upload([{ file: trailer, label: "trailer" }]);
+    upload([{ file: video, label: "video" }]);
+  };
   return (
     <div className="newProduct">
       <h1 className="addProductTitle">New MovieS</h1>
@@ -26,7 +42,6 @@ export default function NewProduct() {
             onChange={(e) => setImg(e.target.files[0])}
           />
         </div>
-
         <div className="addProductItem">
           <label>Title Image</label>
           <input
@@ -36,7 +51,6 @@ export default function NewProduct() {
             onChange={(e) => setImgTitle(e.target.files[0])}
           />
         </div>
-
         <div className="addProductItem">
           <label>Thumbnail Image</label>
           <input
@@ -46,7 +60,6 @@ export default function NewProduct() {
             onChange={(e) => setImgSm(e.target.files[0])}
           />
         </div>
-
         <div className="addProductItem">
           <label>Title</label>
           <input
@@ -56,7 +69,6 @@ export default function NewProduct() {
             onChange={handleChange}
           />
         </div>
-
         <div className="addProductItem">
           <label>Description</label>
           <input
@@ -124,8 +136,14 @@ export default function NewProduct() {
             name="video"
             onChange={(e) => setVideo(e.target.files[0])}
           />
-        </div>
-        <button className="addProductButton">Create</button>
+        </div>{" "}
+        {uploaded === 5 ? (
+          <button className="addProductButton">Create</button>
+        ) : (
+          <button className="addProductButton" onClick={handleUpload}>
+            Upload
+          </button>
+        )}
       </form>
     </div>
   );
