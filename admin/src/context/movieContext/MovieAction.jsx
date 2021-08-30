@@ -49,3 +49,17 @@ export const getMoviesStart = () => ({
   export const deleteMovieFailure = () => ({
     type: "DELETE_MOVIE_FAILURE",
   });
+
+
+  export const createMoviesStart = () => ({
+    type: "CREATE_MOVIES_START",
+  });
+  
+  export const createMoviesSuccess = (movie) => ({
+    type: "CREATE_MOVIES_SUCCESS",
+    payload: movie,
+  });
+  
+  export const createMoviesFailure = () => ({
+    type: "CREATE_MOVIES_FAILURE",
+  });
