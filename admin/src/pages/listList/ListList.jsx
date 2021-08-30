@@ -2,15 +2,15 @@ import "./listList.css";
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
-import { MovieContext } from "../../context/movieContext/MovieContext";
-import { deleteMovie, getMovies } from "../../context/movieContext/apiCalls";
+import { useContext, useEffect } from "react";
+import { ListContext } from "../../context/listContext/ListContext";
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import { deleteList, getLists } from "../../context/listContext/apiCalls";
 
 export default function ListList() {
-  const { movies, dispatch } = useContext(MovieContext);
+  const { lists, dispatch } = useContext(ListContext);
   const useStyles = makeStyles((theme) => ({
     button: {
       margin: theme.spacing(1),
@@ -19,11 +19,11 @@ export default function ListList() {
   const classes = useStyles();
 
   useEffect(() => {
-    getMovies(dispatch);
+    getLists(dispatch);
   }, [dispatch]);
 
   const handleDelete = (id) => {
-    deleteMovie(id, dispatch);
+    deleteList(id, dispatch);
   };
 
   const columns = [
@@ -41,10 +41,10 @@ export default function ListList() {
         );
       },
     },
+    { field: "_id", headerName: "ID", width: 220 },
     { field: "genre", headerName: "Genre", width: 120 },
-    { field: "year", headerName: "year", width: 120 },
-    { field: "limit", headerName: "limit", width: 120 },
-    { field: "isSeries", headerName: "isSeries", width: 120 },
+    { field: "title", headerName: "title", width: 120 },
+    { field: "type", headerName: "type", width: 120 },
 
     {
       field: "action",
@@ -56,7 +56,7 @@ export default function ListList() {
           <>
          
             <Link
-              to={{ pathname: "/movie/" + params.row._id, movie: params.row }}
+              to={{ pathname: "/list/" + params.row._id, list: params.row }}
             >
               <button className="productListEdit">Edit</button>
             </Link>
@@ -75,7 +75,7 @@ export default function ListList() {
      
     <div className="productList">
       <DataGrid
-        rows={movies}
+        rows={lists}
         disableSelectionOnClick
         columns={columns}
         pageSize={8}

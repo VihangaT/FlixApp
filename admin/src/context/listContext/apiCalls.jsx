@@ -1,6 +1,11 @@
 import axios from "axios";
 import {
-  getListsStart
+  deleteListFailure,
+  deleteListStart,
+  deleteListSuccess,
+  getListsFailure,
+  getListsStart,
+  getListsSuccess
 } from "./ListAction";
 
 export const getLists = async (dispatch) => {
@@ -32,17 +37,18 @@ export const getLists = async (dispatch) => {
 //   }
 // };
 
-// //delete
-// export const deleteMovie = async (id, dispatch) => {
-//   dispatch(deleteMovieStart());
-//   try {
-//     await axios.delete("/movies/" + id, {
-//       headers: {
-//         token: "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
-//       },
-//     });
-//     dispatch(deleteMovieSuccess(id));
-//   } catch (err) {
-//     dispatch(deleteMovieFailure());
-//   }
-// };
+
+//delete
+export const deleteList = async (id, dispatch) => {
+  dispatch(deleteListStart());
+  try {
+    await axios.delete("/lists/" + id, {
+      headers: {
+        token: "Bearer " + JSON.parse(localStorage.getItem("user")).accessToken,
+      },
+    });
+    dispatch(deleteListSuccess(id));
+  } catch (err) {
+    dispatch(deleteListFailure());
+  }
+};
